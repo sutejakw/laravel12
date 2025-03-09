@@ -2,10 +2,10 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { IUser } from '@/types/user';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { columns } from './components/columns';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { getColumns } from './components/columns';
 import { DataTable } from './components/data-table';
-// import { User } from '@/types/user';
+import useConfirmationStore from '@/hooks/use-confirmation';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,6 +17,20 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function User() {
     const { props } = usePage();
     const data = props.users as IUser[];
+    const { openConfirmation } = useConfirmationStore();
+
+    const handleDelete = (row) => {
+        openConfirmation({
+            title: 'Submit Confirmation',
+            description: 'Are you sure you want to submit this item?',
+            cancelLabel: 'Cancel',
+            actionLabel: 'Submit',
+            onAction: () => {
+                router.delete(route('user.destroy', row.id));
+            },
+        });
+    };
+    const columns = getColumns({ onDelete: handleDelete });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -28,10 +42,7 @@ export default function User() {
                             Create
                         </Link>
                     </Button>
-
-                    <div className="container mx-auto py-10">
-                        <DataTable columns={columns} data={data} />
-                    </div>
+                    <DataTable columns={columns} data={data} />
                 </div>
             </div>
         </AppLayout>

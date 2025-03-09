@@ -2,7 +2,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useConfirmDialog } from '@/hooks/use-confirm-dialog';
+import useConfirmationStore from '@/hooks/use-confirmation';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { IUser } from '@/types/user';
@@ -21,15 +21,15 @@ const UserForm = ({ user }: UserFormProps) => {
         name: user?.name || '',
     });
 
-    const { showDialog, ConfirmDialog } = useConfirmDialog();
+    const { openConfirmation } = useConfirmationStore();
 
     const handleSubmit = () => {
-        showDialog({
-            title: 'Confirm Submitting',
-            description: 'Are you sure you want to submit this data? This action cannot be undone.',
-            confirmText: 'Submit',
-            cancelText: 'Cancel',
-            onConfirm: () => {
+        openConfirmation({
+            title: 'Submit Confirmation',
+            description: 'Are you sure you want to submit this item?',
+            cancelLabel: 'Cancel',
+            actionLabel: 'Submit',
+            onAction: () => {
                 if (isEdit) {
                     put(route('user.update', user.id));
                 } else {
@@ -92,7 +92,6 @@ const UserForm = ({ user }: UserFormProps) => {
                     </form>
                 </div>
             </div>
-            <ConfirmDialog />
         </AppLayout>
     );
 };

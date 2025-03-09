@@ -1,3 +1,4 @@
+import ConfirmationDialog from '@/components/custom/confirmation-dialog';
 import { Toaster } from '@/components/ui/sonner';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -33,6 +34,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
             <Toaster />
 
             {children}
+            <ConfirmationDialog />
         </AppLayoutTemplate>
     );
 };
