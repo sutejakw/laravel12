@@ -9,6 +9,12 @@
     "tabWidth": 4,
     "overrides": [
         {
+            "files": ["**/*.ts", "**/*.tsx", "**/*.js"],
+            "options": {
+                "tabWidth": 2
+            }
+        },
+        {
             "files": "**/*.yml",
             "options": {
                 "tabWidth": 2
