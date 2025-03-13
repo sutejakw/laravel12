@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         return Inertia::render('user/index', [
-            'users' => UserResource::collection(User::get()),
+            'users' => UserResource::collection(User::latest()->get()),
         ]);
     }
 

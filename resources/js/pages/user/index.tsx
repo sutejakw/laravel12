@@ -19,12 +19,12 @@ export default function User() {
     const data = props.users as IUser[];
     const { openConfirmation } = useConfirmationStore();
 
-    const handleDelete = (row) => {
+    const handleDelete = (row: IUser) => {
         openConfirmation({
             title: 'Submit Confirmation',
-            description: 'Are you sure you want to submit this item?',
+            description: 'Are you sure you want to delete this user?',
             cancelLabel: 'Cancel',
-            actionLabel: 'Submit',
+            actionLabel: 'Delete',
             onAction: () => {
                 router.delete(route('user.destroy', row.id));
             },
