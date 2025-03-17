@@ -50,6 +50,14 @@ const UserForm = ({ user }: UserFormProps) => {
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
+      title: 'User Management',
+      href: '/user',
+    },
+    {
+      title: 'List of Users',
+      href: '/user',
+    },
+    {
       title: isEdit ? 'Edit User' : 'Create User',
       href: '/user',
     },
@@ -58,7 +66,7 @@ const UserForm = ({ user }: UserFormProps) => {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="User" />
-      <div className="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-4">
+      <div className="wrapper">
         <div className="w-full overflow-x-auto">
           <form className="flex flex-col gap-6">
             <div className="grid gap-6">

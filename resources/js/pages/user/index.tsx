@@ -9,6 +9,10 @@ import { DataTable } from './components/data-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
+    title: 'User Management',
+    href: '/user',
+  },
+  {
     title: 'List of Users',
     href: '/user',
   },
@@ -36,7 +40,7 @@ export default function User() {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Users" />
-      <div className="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-4">
+      <div className="wrapper">
         <div className="w-full overflow-x-auto">
           <Button asChild>
             <Link href={route('user.create')} as="button">
