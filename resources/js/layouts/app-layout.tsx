@@ -7,34 +7,34 @@ import { useEffect, type ReactNode } from 'react';
 import { toast } from 'sonner';
 
 interface AppLayoutProps {
-    children: ReactNode;
-    breadcrumbs?: BreadcrumbItem[];
+  children: ReactNode;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
-    const sharedProps = usePage().props as { flash?: { success?: string; error?: string } };
-    useEffect(() => {
-        if (sharedProps?.flash?.success) {
-            toast.success(sharedProps.flash.success, {
-                position: 'top-right',
-            });
-        }
+  const sharedProps = usePage().props as { flash?: { success?: string; error?: string } };
+  useEffect(() => {
+    if (sharedProps?.flash?.success) {
+      toast.success(sharedProps.flash.success, {
+        position: 'top-right',
+      });
+    }
 
-        if (sharedProps?.flash?.error) {
-            toast.error(sharedProps.flash.error, {
-                position: 'top-right',
-                duration: Infinity,
-                closeButton: true,
-            });
-        }
-    }, [sharedProps.flash]);
+    if (sharedProps?.flash?.error) {
+      toast.error(sharedProps.flash.error, {
+        position: 'top-right',
+        duration: Infinity,
+        closeButton: true,
+      });
+    }
+  }, [sharedProps.flash]);
 
-    return (
-        <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-            <Toaster />
+  return (
+    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+      <Toaster />
 
-            {children}
-            <ConfirmationDialog />
-        </AppLayoutTemplate>
-    );
+      {children}
+      <ConfirmationDialog />
+    </AppLayoutTemplate>
+  );
 };

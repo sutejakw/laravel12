@@ -5,7 +5,7 @@ import { formatDateWithTime } from '@/utils/date';
 import { ColumnDef } from '@tanstack/react-table';
 
 type DeleteHandlerProps = {
-    onDelete: (user: IUser) => void;
+  onDelete: (user: IUser) => void;
 };
 
 export const getColumns = ({ onDelete }: DeleteHandlerProps): ColumnDef<IUser>[] => [
@@ -40,7 +40,7 @@ export const getColumns = ({ onDelete }: DeleteHandlerProps): ColumnDef<IUser>[]
     header: 'Role',
     cell: ({ row }) => {
       return row.original?.role?.label ?? '-';
-    }
+    },
   },
   {
     header: 'Action',

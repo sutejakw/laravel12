@@ -1,4 +1,4 @@
-import { IRole } from "../role";
+import { IRole } from '../role';
 
 export type IUser = {
   id: number;

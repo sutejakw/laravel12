@@ -58,7 +58,7 @@ const UserForm = ({ user }: UserFormProps) => {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="User" />
-      <div className="flex flex-col flex-1 w-full h-full gap-4 p-4 rounded-xl">
+      <div className="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-4">
         <div className="w-full overflow-x-auto">
           <form className="flex flex-col gap-6">
             <div className="grid gap-6">
@@ -120,8 +120,8 @@ const UserForm = ({ user }: UserFormProps) => {
                 <InputError message={errors.role_id} />
               </div>
 
-              <Button type="button" className="w-full mt-4" disabled={processing} onClick={handleSubmit}>
-                {processing && <LoaderCircle className="w-4 h-4 animate-spin" />}
+              <Button type="button" className="mt-4 w-full" disabled={processing} onClick={handleSubmit}>
+                {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                 {isEdit ? 'Update' : 'Submit'}
               </Button>
             </div>
