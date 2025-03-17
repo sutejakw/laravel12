@@ -29,10 +29,17 @@ export const getColumns = ({ onDelete }: DeleteHandlerProps): ColumnDef<IUser>[]
       const date = formatDateWithTime(row.original.emailVerifiedAt);
 
       if (date == '-') {
-        return <Badge variant="destructive">Not Verified</Badge>
+        return <Badge variant="destructive">Not Verified</Badge>;
       }
 
       return date;
+    },
+  },
+  {
+    accessorKey: 'role',
+    header: 'Role',
+    cell: ({ row }) => {
+      return row.original?.role?.label ?? '-';
     }
   },
   {

@@ -4,20 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\RoleResource;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Services\Role\IRoleService;
+use App\Services\User\IUserService;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    public function __construct(
+        protected IUserService $userService,
+        protected IRoleService $roleService
+    ) {
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render('user/index', [
-            'users' => UserResource::collection(User::latest()->get()),
+            'users' => UserResource::collection(User::with('roles')->latest()->get()),
         ]);
     }
 
@@ -26,7 +35,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('user/form');
+        return Inertia::render('user/form', [
+            'roles' => $this->roleService->getAll(),
+        ]);
     }
 
     /**
@@ -34,15 +45,15 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        DB::beginTransaction();
         try {
-            $data = $request->all();
-            $data['password'] = bcrypt('password');
+            $this->userService->create($request->validated());
 
-            User::create($data);
-
+            DB::commit();
             return redirect()->route('user.index')->with('success', 'success create user');
         } catch (\Throwable $th) {
-            return redirect()->route('user.create')->with('error', $th->getMessage() . $th->getFile() .''. $th->getLine());
+            DB::commit();
+            return redirect()->route('user.create')->with('error', $th->getMessage());
         }
     }
 
@@ -60,7 +71,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return Inertia::render('user/form', [
-            'user' => $user
+            'user' => new UserResource($this->userService->findById($user->id)),
+            'roles' => RoleResource::collection($this->roleService->getAll()),
         ]);
     }
 
@@ -70,11 +82,11 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         try {
-            $user->update($request->validated());
+            $this->userService->update($user->id, $request->validated());
 
             return redirect()->route('user.index')->with('success', 'success update user');
         } catch (\Throwable $th) {
-            return redirect()->route('user.edit', $user->id)->with('error', $th->getMessage() . $th->getFile() .''. $th->getLine());
+            return redirect()->route('user.edit', $user->id)->with('error', $th->getMessage());
         }
     }
 

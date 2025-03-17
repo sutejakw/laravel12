@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\RolesEnum;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,7 +16,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     // Route::get('/user', );
-    Route::resource('user', UserController::class);
+    // Route::middleware(['role:' . RolesEnum::SUPERADMIN->value])
+    //     ->get('/example', fn() => 'helo');
+    Route::middleware(['role:' . RolesEnum::SUPERADMIN->value])
+        ->resource('user', UserController::class);
+
+    Route::resource('role', RoleController::class);
 });
 
 require __DIR__.'/settings.php';

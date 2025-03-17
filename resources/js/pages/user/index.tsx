@@ -17,6 +17,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function User() {
     const { props } = usePage();
     const data = props.users as IUser[];
+    console.log(data);
+
     const { openConfirmation } = useConfirmationStore();
 
     const handleDelete = (row: IUser) => {
