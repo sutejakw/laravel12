@@ -10,15 +10,13 @@ interface DTActionProps<TData> {
   onDelete: (value: TData) => void;
 }
 
-export const DTAction = <TData,> ({
-  row, editRoute, onDelete
-}: DTActionProps<TData>) => {
+export const DTAction = <TData,>({ row, editRoute, onDelete }: DTActionProps<TData>) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-8 w-8 p-0">
           <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4"/>
+          <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -30,4 +28,4 @@ export const DTAction = <TData,> ({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

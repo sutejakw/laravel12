@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'emailVerifiedAt' => $this->email_verified_at
                 ? $this->email_verified_at->format('Y-m-d')
                 : '',
+            'role' => new RoleResource($this->roles()->first()),
         ];
     }
 }

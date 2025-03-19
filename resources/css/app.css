@@ -157,3 +157,8 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* custom css here */
+.wrapper {
+    @apply flex h-full w-full flex-1 flex-col gap-4 rounded-xl py-10 px-6 md:px-20;
+}

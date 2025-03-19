@@ -1,5 +1,5 @@
-import { Table } from "@tanstack/react-table";
-import { Input } from "../ui/input";
+import { Table } from '@tanstack/react-table';
+import { Input } from '../ui/input';
 
 interface DTFilterProps<TData> {
   table: Table<TData>;
@@ -7,11 +7,7 @@ interface DTFilterProps<TData> {
   columnName: string;
 }
 
-export function DTFilter<TData>({
-  table,
-  placeholder,
-  columnName
-}: DTFilterProps<TData>) {
+export function DTFilter<TData>({ table, placeholder, columnName }: DTFilterProps<TData>) {
   return (
     <div className="flex items-center py-4">
       <Input

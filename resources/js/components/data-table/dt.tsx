@@ -1,12 +1,12 @@
-import { ColumnDef, flexRender, Table as TanstackTable } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { ColumnDef, flexRender, Table as TanstackTable } from '@tanstack/react-table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 
 interface DTProps<TData, TValue> {
   table: TanstackTable<TData>;
   columns: ColumnDef<TData, TValue>[];
 }
 
-export function DT<TData, TValue>({table, columns}: DTProps<TData, TValue>) {
+export function DT<TData, TValue>({ table, columns }: DTProps<TData, TValue>) {
   return (
     <div className="rounded-md border">
       <Table>
