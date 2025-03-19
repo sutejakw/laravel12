@@ -7,8 +7,6 @@ interface ErrorPageProps {
 }
 
 export default function ErrorPage({ status }: ErrorPageProps) {
-  console.log(status);
-
   const title: string =
     {
       503: '503: Service Unavailable',
@@ -29,7 +27,7 @@ export default function ErrorPage({ status }: ErrorPageProps) {
     <div className="flex min-h-screen items-center px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16">
       <div className="w-full space-y-6 text-center">
         <div className="space-y-3">
-          <h1 className="animate-bounce text-4xl font-bold tracking-tighter sm:text-5xl">{status}</h1>
+          <h1 className="animate-bounce text-4xl font-bold tracking-tighter sm:text-5xl">{title}</h1>
           <p className="text-gray-500">{description}</p>
         </div>
         <Link
