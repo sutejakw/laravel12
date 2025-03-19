@@ -18,7 +18,9 @@ class RoleResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'label' => RolesEnum::tryFrom($this->name)?->label() // Get the label if valid
+            'label' => RolesEnum::tryFrom($this->name)?->label(), // Get the label if valid
+            // 'label' => ucwords($this->name),
+            'guardName' => $this->guard_name,
         ];
     }
 }

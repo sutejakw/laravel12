@@ -15,13 +15,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    // Route::get('/user', );
-    // Route::middleware(['role:' . RolesEnum::SUPERADMIN->value])
-    //     ->get('/example', fn() => 'helo');
     Route::middleware(['role:' . RolesEnum::SUPERADMIN->value])
         ->resource('user', UserController::class);
 
-    Route::resource('role', RoleController::class);
+    Route::resource('role', RoleController::class)
+        ->except([
+            'show', 'edit'
+        ]);
 });
 
 require __DIR__.'/settings.php';

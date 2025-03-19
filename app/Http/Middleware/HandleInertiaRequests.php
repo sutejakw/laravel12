@@ -46,6 +46,13 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
             ],
+            'filters' => [
+                'search' => $request->query('search'),
+                'limit' => $request->query('limit'),
+                'col' => $request->query('col'),
+                'sort' => $request->query('sort'),
+                'filters' => $request->query('filters'),
+            ],
         ];
     }
 }
