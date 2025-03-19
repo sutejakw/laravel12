@@ -2,83 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\QueryParamsRequest;
+use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Models\Role;
+use App\Services\Role\IRoleService;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        $users = User::query();
-
-        // Filtering
-        if ($request->has('search')) {
-            $users->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        // Sorting
-        if ($request->has('sortBy') && $request->has('order')) {
-            $users->orderBy($request->sortBy, $request->order);
-        }
-
-        // Pagination
-        $users = $users->paginate(10)->withQueryString();
-
-        return Inertia::render('role/list', [
-            'users' => $users,
-            'filters' => $request->only(['search', 'sortBy', 'order']),
-        ]);
+    public function __construct(protected IRoleService $roleService) {
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index(QueryParamsRequest $request): Response
     {
-        //
+        $roles = $this->roleService->getAllDatatable($request->validated());
+
+        return Inertia::render('role/index', [
+            'roles' => $roles,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request): RedirectResponse
     {
-        //
-    }
+        try {
+            $this->roleService->create($request->validated());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+            return redirect()
+                ->route(route: 'role.index')
+                ->with('success', 'success create role');
+        } catch (Exception $e) {
+            return redirect()
+                ->route(route: 'role.index')
+                ->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
-        //
+        try {
+            $this->roleService->update($role, $request->validated());
+
+            return redirect()
+                ->route(route: 'role.index')
+                ->with('success', 'success update role');
+        } catch (Exception $e) {
+            return redirect()
+                ->route(route: 'role.index')
+                ->with('error', $e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role): RedirectResponse
     {
-        //
+        try {
+            $this->roleService->delete($role);
+
+            return redirect()
+                ->route(route: 'role.index')
+                ->with('success', 'success delete role');
+        } catch (Exception $e) {
+            return redirect()
+                ->route(route: 'role.index')
+                ->with('error', $e->getMessage());
+        }
     }
 }

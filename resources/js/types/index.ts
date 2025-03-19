@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+import { ILink, IMeta } from './pagination';
 
 export interface Auth {
   user: User;
@@ -43,4 +44,25 @@ export interface User {
   created_at: string;
   updated_at: string;
   [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface PaginationResponse<T> {
+  data: T[];
+  links: ILink;
+  meta: IMeta;
+}
+
+export interface MyFilterItem {
+  key: string;
+  value: string;
+}
+
+type ParamsValue = string | number | boolean | null | undefined | ParamsValue[] | { [key: string]: ParamsValue };
+export interface BaseFilter {
+  [key: string]: ParamsValue;
+  search?: string;
+  limit?: string;
+  col?: string;
+  sort?: string;
+  filters?: [];
 }
