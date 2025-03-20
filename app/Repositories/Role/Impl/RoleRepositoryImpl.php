@@ -15,7 +15,7 @@ class RoleRepositoryImpl implements IRoleRepository
 
     public function findById(int $id, array $columns = ["*"])
     {
-        return $this->model->select($columns)->find($id);
+        return $this->model->newQuery()->select($columns)->where('id', $id)->first();
     }
 
     public function getAllBuilder(
