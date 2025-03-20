@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RolesEnum;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('role', RoleController::class)
         ->except([
-            'show', 'edit'
+            'create', 'show', 'edit'
+        ]);
+
+    Route::resource('permission', PermissionController::class)
+        ->except([
+            'create', 'show', 'edit'
         ]);
 });
 

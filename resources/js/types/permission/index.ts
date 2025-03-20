@@ -1,8 +1,7 @@
 import { GuardNameEnum } from '../constant';
 
-export type IRole = {
+export type IPermission = {
   id: number;
   name: string;
-  label?: string;
   guardName: GuardNameEnum;
 };

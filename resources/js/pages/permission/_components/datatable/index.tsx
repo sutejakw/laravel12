@@ -5,7 +5,7 @@ import TableToolbar from '@/components/datatables/table-toolbar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import useDebouncedSearch from '@/hooks/use-debounced-search';
 import { BaseFilter, PaginationResponse } from '@/types';
-import { IRole } from '@/types/role';
+import { IPermission } from '@/types/permission';
 import { PageProps } from '@inertiajs/core';
 import { usePage } from '@inertiajs/react';
 
@@ -14,13 +14,13 @@ interface Props extends PageProps {
 }
 
 interface DataTableProps {
-  onEdit: (role: IRole) => void;
-  onDelete: (role: IRole) => void;
+  onEdit: (permission: IPermission) => void;
+  onDelete: (permission: IPermission) => void;
 }
 
 export default function DataTable({ onEdit, onDelete }: DataTableProps) {
-  const dataRoles = usePage().props.roles;
-  const { data: roles, links, meta } = dataRoles as PaginationResponse<IRole>;
+  const dataPermissions = usePage().props.permissions;
+  const { data: permissions, links, meta } = dataPermissions as PaginationResponse<IPermission>;
   const { filters } = usePage<Props>().props;
   const currentRouteName = route().current() ?? '';
   const { params, setParams, setTimeDebounce } = useDebouncedSearch({
@@ -54,20 +54,18 @@ export default function DataTable({ onEdit, onDelete }: DataTableProps) {
                   sort={params?.col === 'name' ? params?.sort : null}
                 />
               </TableHead>
-              <TableHead>Label</TableHead>
               <TableHead>Guard Name</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {roles.length > 0 ? (
-              roles.map((role) => (
-                <TableRow key={role.id}>
-                  <TableCell className="max-w-[250px] truncate">{role.name}</TableCell>
-                  <TableCell className="max-w-[250px] truncate">{role.label}</TableCell>
-                  <TableCell className="max-w-[250px] truncate">{role.guardName}</TableCell>
+            {permissions.length > 0 ? (
+              permissions.map((permission) => (
+                <TableRow key={permission.id}>
+                  <TableCell className="max-w-[250px] truncate">{permission.name}</TableCell>
+                  <TableCell className="max-w-[250px] truncate">{permission.guardName}</TableCell>
                   <TableCell className="max-w-[250px] truncate">
-                    <DTAction row={role} onEdit={() => onEdit(role)} onDelete={() => onDelete(role)} />
+                    <DTAction row={permission} onEdit={() => onEdit(permission)} onDelete={() => onDelete(permission)} />
                   </TableCell>
                 </TableRow>
               ))
