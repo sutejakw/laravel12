@@ -38,7 +38,7 @@ export default function DataTable({ onEdit, onDelete }: DataTableProps) {
 
   return (
     <div className="mt-4 space-y-4">
-      <TableToolbar placeholder="Search role" search={params.search} params={params} setParams={setParams} setTimeDebounce={setTimeDebounce} />
+      <TableToolbar placeholder="Search permission" search={params.search} params={params} setParams={setParams} setTimeDebounce={setTimeDebounce} />
       <div className="flex flex-col gap-1 sm:flex-row sm:space-x-1"></div>
       <div className="">
         <Table>
