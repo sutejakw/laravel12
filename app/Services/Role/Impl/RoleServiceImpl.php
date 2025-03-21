@@ -2,6 +2,8 @@
 
 namespace App\Services\Role\Impl;
 
+use App\Enums\RolesEnum;
+use App\Exceptions\CannotDeleteSuperAdminException;
 use App\Exceptions\ServiceException;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
@@ -12,6 +14,10 @@ use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 use App\Facades\DataTable;
+use Spatie\Permission\Models\Role as SpatieRole;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Throwable;
 
 class RoleServiceImpl implements IRoleService
 {
@@ -39,7 +45,9 @@ class RoleServiceImpl implements IRoleService
     public function getAllDatatable(array $data): AnonymousResourceCollection
     {
         try {
-            $query = Role::query();
+            $query = SpatieRole::query()->with(['permissions']);
+
+            // dd($query->get());
 
             $sort = str_replace(
                 ['id', 'name'],
@@ -50,6 +58,7 @@ class RoleServiceImpl implements IRoleService
             $query->select('id', 'name', 'guard_name');
 
             $result = DataTable::query($query)
+                ->with(['permissions'])
                 ->searchable(['name'])
                 ->applySort($sort)
                 ->allowedSorts(['id', 'name'])
@@ -115,15 +124,23 @@ class RoleServiceImpl implements IRoleService
     {
         try {
             $role = $this->roleRepo->findById($role->id);
+
+            if ($role->name == RolesEnum::SUPERADMIN->value) {
+                throw new CannotDeleteSuperAdminException();
+            }
+
             Cache::delete($this->cacheKey);
 
             return $this->roleRepo->delete($role);
-        } catch (Exception $e) {
+        } catch(CannotDeleteSuperAdminException $e) {
+            throw $e;
+        } catch (Throwable $th) {
             $this->logService->logError(
                 contextName: 'RoleServiceImpl@delete',
-                exception: $e,
+                exception: $th,
                 extraContext: [
-                    'user' => auth()->user()
+                    'user' => auth()->user(),
+                    'role' => $role
                 ]
             );
 

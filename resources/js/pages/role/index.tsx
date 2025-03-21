@@ -1,12 +1,12 @@
-import AppLayout from "@/layouts/app-layout";
-import { BreadcrumbItem } from "@/types";
-import { Head, router } from "@inertiajs/react";
-import DataTable from "./_components/datatable";
-import FormRole from "./form";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { IRole } from "@/types/role";
-import useConfirmationStore from "@/hooks/use-confirmation";
+import { Button } from '@/components/ui/button';
+import useConfirmationStore from '@/hooks/use-confirmation';
+import AppLayout from '@/layouts/app-layout';
+import { BreadcrumbItem } from '@/types';
+import { IRole } from '@/types/role';
+import { Head, router } from '@inertiajs/react';
+import { useState } from 'react';
+import DataTable from './_components/datatable';
+import FormRole from './form';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -22,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Index() {
   const [modalOpen, setModalOpen] = useState(false);
   const [formMode, setFormMode] = useState<'add' | 'edit'>('add');
-  const [formInitialData, setFormInitialData] = useState<{name: string; id: number|null}>({ name: '', id: null });
+  const [formInitialData, setFormInitialData] = useState<{ name: string; id: number | null }>({ name: '', id: null });
 
   const handleCreate = () => {
     setFormMode('add');
@@ -41,7 +41,11 @@ export default function Index() {
   const handleDelete = (row: IRole) => {
     openConfirmation({
       title: 'Submit Confirmation',
-      description: 'Are you sure you want to delete this role?',
+      description: `Are you sure you want to delete this role?
+        Deleting a role may have significant consequences, such as:
+        - Removing associated permissions and access controls.
+        - Potentially affecting users or systems relying on this role.
+        - Breaking dependencies if other entities are linked to this role.`,
       cancelLabel: 'Cancel',
       actionLabel: 'Delete',
       onAction: () => {

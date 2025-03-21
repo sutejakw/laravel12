@@ -19,8 +19,8 @@ class RoleResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'label' => RolesEnum::tryFrom($this->name)?->label(), // Get the label if valid
-            // 'label' => ucwords($this->name),
             'guardName' => $this->guard_name,
+            'permissions' => $this->whenLoaded('permissions', fn() => PermissionResource::collection($this->permissions)),
         ];
     }
 }
