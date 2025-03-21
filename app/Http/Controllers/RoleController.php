@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ServiceException;
 use App\Http\Requests\QueryParamsRequest;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
@@ -11,6 +12,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 class RoleController extends Controller
 {
@@ -76,10 +78,14 @@ class RoleController extends Controller
             return redirect()
                 ->route(route: 'role.index')
                 ->with('success', 'success delete role');
-        } catch (Exception $e) {
+        } catch (ServiceException $e) {
+            return redirect()
+                ->route('role.index')
+                ->with('error', $e->getMessage());
+        } catch (Throwable $th) {
             return redirect()
                 ->route(route: 'role.index')
-                ->with('error', $e->getMessage());
+                ->with('error', $th->getMessage());
         }
     }
 }

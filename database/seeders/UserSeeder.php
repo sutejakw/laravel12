@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -25,5 +26,8 @@ class UserSeeder extends Seeder
 
         // give all permissions
         $user->syncPermissions(Permission::get());
+
+        $role = Role::where('name', RolesEnum::SUPERADMIN)->first();
+        $role->syncPermissions(Permission::all());
     }
 }
