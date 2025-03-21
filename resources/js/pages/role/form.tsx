@@ -12,7 +12,7 @@ interface FormRoleProps {
   mode: string;
   initialData: {
     name: string;
-    id: number|null;
+    id: number | null;
   };
   open: boolean;
   onClose: () => void;
@@ -55,12 +55,15 @@ const FormRole = ({ mode = 'add', initialData = { name: '', id: null }, open, on
   };
 
   return (
-    <Dialog open={open} onOpenChange={(val) => {
-      if (!val) {
-        clearErrors();
-        onClose();
-      }
-    }}>
+    <Dialog
+      open={open}
+      onOpenChange={(val) => {
+        if (!val) {
+          clearErrors();
+          onClose();
+        }
+      }}
+    >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{mode === 'add' ? 'Add New Role' : 'Edit Role'}</DialogTitle>
