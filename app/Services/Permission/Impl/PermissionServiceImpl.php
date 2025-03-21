@@ -25,12 +25,12 @@ class PermissionServiceImpl implements IPermissionService
     public function getAllDatatable(array $data): AnonymousResourceCollection
     {
         try {
-            $query = Permission::orderBy('name');
+            $query = Permission::query();
 
             $sort = str_replace(
                 ['id', 'name'],
                 ['id', 'name'],
-                request()->query('col')
+                request()->query('col', 'name') // Provide a default value of an empty string
             );
 
             $query->select('id', 'name', 'guard_name');
